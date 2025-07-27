@@ -4,6 +4,7 @@ import Floor from './Floor.js'
 import Rocket from './Rocket.js'
 //import Fox from './Fox.js';
 
+export let rocket = null;
 export default class World
 {
     constructor()
@@ -17,7 +18,13 @@ export default class World
         {
             // Setup
             this.floor = new Floor()
-            this.rocket = new Rocket();
+            rocket = new Rocket(
+                22200,    // dryMass in kg
+                410900,   // fuelMass in kg
+                2380,     // exhaustVelocity in m/s
+                2055      // massFlowRate in kg/s
+            )
+            this.rocket = rocket
             //this.fox = new Fox();
             this.environment = new Environment()
             this.experience.camera.setTarget(this.rocket)
@@ -26,7 +33,8 @@ export default class World
 
     update()
     {
-        if(this.fox)
-            this.fox.update()
+        if(this.rocket){
+            this.rocket.update();
+        }
     }
 }
