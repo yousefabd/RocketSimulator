@@ -1,5 +1,6 @@
 export const constants = {
   dragCoefficient: 0.5,
+  finDragCoefficient : 0.83,
   diameter: 0.3,                       //m
   frontalArea(){                       //m^2
     const radius = this.diameter/2;

@@ -21,7 +21,7 @@ export default class Force {
 export const forces = {
   thrust: new Force(
     () => rocket.fuelMass > 0 ? rocket.massFlowRate * rocket.exhaustVelocity : 0,
-    up
+    () => up().applyQuaternion(rocket.orientation)
   ),
 
   drag: new Force(
@@ -29,16 +29,15 @@ export const forces = {
       const Cd = constants.dragCoefficient;
       const rho = state.airDensity;
       const A = constants.frontalArea();
-      const v = state.velocity;
+      const v = state.velocity.length();
       return 0.5 * Cd * rho * A * v * v;
     },
-    () => state.velocity >= 0 ? down() : up() // drag opposes motion
+    () => state.velocity.clone().negate().normalize() // drag opposes motion
   ),
 
   weight: new Force(
     () => {
       const m = rocket.getTotalMass();
-      const h = state.altitude;
       const g = state.gravityAcceleration;
       return m * g;
     },
