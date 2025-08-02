@@ -17,64 +17,78 @@ export default class Physics {
     for (const key in forces) {
       net.add(forces[key].vector);
     }
+    //console.log(net)
     return net;
   }
 
   computeAerodynamicTorque() {
     const velocity = state.velocity.clone();
-    const windVelocity = velocity.length();
-    const windDirection = velocity.clone().normalize();
+    const windDirection = velocity.clone().negate().normalize();
+    const v = velocity.length();
   
-    if (windVelocity < 1e-3) return new THREE.Vector3(0, 0, 0);
+    if (v < 1e-3) return new THREE.Vector3(0, 0, 0);
   
     const Cd = constants.finDragCoefficient;
     const A = this.rocket.finArea;
     const rho = state.airDensity;
+    const d = this.rocket.finOffset;
   
-    const deflection = this.rocket.finDeflection;
+    const deflection = this.rocket.controller.finDeflection;
   
     // === Local axes ===
-    const localX = new THREE.Vector3(1, 0, 0).applyQuaternion(this.rocket.orientation); // pitch
-    const localY = new THREE.Vector3(0, 1, 0).applyQuaternion(this.rocket.orientation); // yaw
-    const localZ = new THREE.Vector3(0, 0, 1).applyQuaternion(this.rocket.orientation); // roll
-    
-    const armVectors = [
-      new THREE.Vector3(0, -this.rocket.finOffset, 0), // yaw (vertical offset)
-      new THREE.Vector3(0, 0, -this.rocket.finOffset), // pitch (back fin)
-      new THREE.Vector3(this.rocket.finOffset, 0, 0)    // roll (side fin)
-    ];
-    const deflections = [deflection.yaw, deflection.pitch, deflection.roll];
-    const axes = [localY, localX, localZ];
+    const pitchLever = new THREE.Vector3(1, 0, 0).multiplyScalar(-d).applyQuaternion(this.rocket.orientation); // pitch
+    const yawLever = new THREE.Vector3(0, 0, 1).multiplyScalar(-d).applyQuaternion(this.rocket.orientation); // yaw
+  
+    const deflections = [deflection.yaw, deflection.pitch];
+    const arms = [pitchLever,yawLever];
     
     let totalTorque = new THREE.Vector3();
     
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       const deflectionAngle = deflections[i];
       if (Math.abs(deflectionAngle) < 1e-4) continue;
 
-      const arm = armVectors[i].clone().applyQuaternion(this.rocket.orientation);
-      const axis = axes[i];
-      const direction = windDirection.clone().applyAxisAngle(axis, deflectionAngle).normalize().negate();
-      // === Compute effective angle of attack ===
-      const angleOfAttack = direction.angleTo(windDirection);
-      const sinAngle = Math.sin(angleOfAttack);
+      const arm = arms[i];
+
+      const sinAngle = Math.sin(deflectionAngle);
     
-      // If sin(angle) is near 0, lift is ~0
-      if (sinAngle < 1e-3) continue;
+      const liftMag = 0.5 * Cd * rho * A * v * v * sinAngle;
+      const liftForce = windDirection.clone().multiplyScalar(liftMag);
     
-      // Compute lift magnitude based on deflection-induced AoA
-      const liftMag = 0.5 * rho * windVelocity * windVelocity * Cd * A * sinAngle;
-    
-      const liftDirection = direction.clone().sub(windDirection).normalize();
-      const liftForce = liftDirection.multiplyScalar(liftMag);
-    
-      const torque = arm.cross(liftForce);
+      const torque = arm.clone().cross(liftForce);
       totalTorque.add(torque);
     }
     
     return totalTorque;    
   }
-  
+  computeDampingTorque(){
+    const angVelocity = state.angularVelocity.clone();
+    const dampingDirection = angVelocity.clone().negate().normalize();
+    const ω = angVelocity.length();
+
+    const Cd = constants.angularDampingCoefficient;
+    const rho = state.airDensity;
+    const A = constants.dampingArea();
+    const d = constants.diameter / 2;
+    const l = this.rocket.finOffset;
+    const dampMag = Cd * rho * A * l * l * ω;
+    const dampForce = dampingDirection.clone().multiplyScalar(dampMag);
+    const torque = dampForce.clone().multiplyScalar(d);
+    return torque;
+  }
+  computeThrustTorque(){
+    const thrustDir = this.rocket.controller.thrustRotationDir.clone().applyQuaternion(this.rocket.orientation);
+    const mdot = this.rocket.finMassFlowRate;
+    const Ve = this.rocket.finExhaustVelocity;
+    const Pe = this.rocket.fuelExitPressure;
+    const P0 = state.airPressure;
+    const Ae = this.rocket.finNozzleExitArea;
+    const d = this.rocket.finOffset;
+
+    const thrustMag = mdot * Ve + (Pe - P0) * Ae; 
+    const thrustForce = thrustDir.clone().multiplyScalar(thrustMag);
+    return thrustForce.clone().multiplyScalar(d);
+  }
   handleTranslationalMotion() {
     const netForce = this.computeNetForce();
     const mass = this.rocket.getTotalMass();
@@ -82,7 +96,7 @@ export default class Physics {
     // a = F / m
     const acceleration = netForce.clone().divideScalar(mass);
     // v = v + a * dt
-    state.velocity.add(acceleration.multiplyScalar(this.time.delta));
+    state.velocity.add(acceleration.clone().multiplyScalar(this.time.delta));
 
     // h = h + v * dt
     state.position.add(state.velocity.clone().multiplyScalar(this.time.delta));
@@ -95,12 +109,15 @@ export default class Physics {
     const dt = this.time.delta;
     const rocket = this.rocket;
     state.momentOfInertia = 0.5 * rocket.getTotalMass() * Math.pow(constants.diameter / 2, 2); // cylinder approximation
-    state.torque = this.computeAerodynamicTorque();
+    //α = ΣΓ / IΔ
+    const aerodynamicTorque = this.computeAerodynamicTorque();
+    const dampingTorque = this.computeDampingTorque();
+    const thrustTorque = this.computeThrustTorque();
+    state.torque = aerodynamicTorque.add(dampingTorque).add(thrustTorque);
     const angularAcceleration = state.torque.clone().divideScalar(state.momentOfInertia);
     
     // ω = ω + α * dt
     state.angularVelocity.add(angularAcceleration.multiplyScalar(dt));
-  
     // Δθ from angular velocity (converted to quaternion)
     const deltaRotation = new THREE.Quaternion().setFromEuler(
       new THREE.Euler(
@@ -109,7 +126,6 @@ export default class Physics {
         state.angularVelocity.z * dt
       )
     );
-  
     // Update orientation
     state.orientation.multiply(deltaRotation).normalize();
   }
@@ -129,6 +145,7 @@ export default class Physics {
     this.testArrowHelpers.push(thrustArrow);
   }
   update() {
+    console.log(new THREE.Vector2(state.position.y,state.airPressure));
     this.handleTranslationalMotion();
     this.handleRotationalMotion();
     this.debugVisualize();

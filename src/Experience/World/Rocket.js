@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 import Physics from '../Physics/Physics.js';
 import {state} from '../Physics/state.js';
+import RocketController from './RocketController.js';
 
 export default class Rocket{
   
@@ -10,8 +11,15 @@ export default class Rocket{
     fuelMass,
     exhaustVelocity,
     massFlowRate,
+    fuelExitPressure,
+    nozzleExitArea,
+
     finOffset = 2,
-    finArea = 0.1
+    finArea = 0.4,
+    finExhaustVelocity = 140,
+    finMassFlowRate = 64,
+    finNozzleExitArea = 0.16
+    
     } = {}){
     this.experience = new Experience()
     this.scene = this.experience.scene
@@ -20,22 +28,23 @@ export default class Rocket{
     this.debug = this.experience.debug
 
     // === Rocket Parameters ===
-    this.dryMass = dryMass                  // kg
-    this.maxFuelMass = fuelMass             // kg
+    this.dryMass = dryMass                        // kg
+    this.maxFuelMass = fuelMass                   // kg
     this.fuelMass = 0
-    this.exhaustVelocity = exhaustVelocity  // m/s
-    this.massFlowRate = massFlowRate        // kg/s
-    this.finArea = finArea                  // m^2
-    this.finOffset = finOffset              // m
-    this.engineStarted = false;
+    this.exhaustVelocity = exhaustVelocity        // m/s
+    this.massFlowRate = massFlowRate              // kg/s
+    this.finArea = finArea                        // m^2
+    this.finOffset = finOffset                    // m
+    this.fuelExitPressure = fuelExitPressure      // Pa
+    this.nozzleExitArea = nozzleExitArea;         // m^2
+    this.finExhaustVelocity = finExhaustVelocity; // m/s
+    this.finMassFlowRate = finMassFlowRate;       // kg/s
+    this.finNozzleExitArea = finNozzleExitArea    // m^2
+
 
     this.physics = new Physics(this);
 
-    // Debug
-    if(this.debug.active)
-    {
-        this.debugFolder = this.debug.ui.addFolder('rocket')
-    }
+    this.controller = new RocketController(this);
 
     // Resource
     //this.transform = this.resources.items.rocketModel
@@ -51,37 +60,12 @@ export default class Rocket{
     //rocket state
     this.position = this.transform.position;
     this.orientation = this.transform.quaternion;
-    this.finDeflection = {
-      pitch: 0,
-      yaw: 0,
-      roll: 0
-    };
 
-    if(this.debug.active){
-      this.debugFolder.add(this.transform.position,'y').min(0).max(100).name("rocket position manual");
-      this.debugFolder.add(this,'engineStarted').name("start engine").onChange((start)=>{
-        if(start){
-          this.fuelMass = this.maxFuelMass;
-        }
-      });
-      this.debugFolder.add(this,'testTorque');
-      this.debugFolder.add(this.finDeflection, 'yaw').min(-0.5).max(0.5).step(0.01).name('Yaw Deflection');
-      this.debugFolder.add(this.finDeflection, 'pitch').min(-0.5).max(0.5).step(0.01).name('Pitch Deflection');
-      // this.debugFolder.add(this.transform.rotation,'x').min(-9).max(9)
-      // this.debugFolder.add(this.transform.rotation,'y').min(-9).max(9)
-      // this.debugFolder.add(this.transform.rotation,'z').min(-9).max(9)
-    }
-  }
-  testTorque() {
-    state.torque.set(0,0,10);
+    this.prev = state.position.clone();
   }
   // === Get total mass (dry + remaining fuel) ===
   getTotalMass() {
     return this.dryMass + this.fuelMass
-  }
-  
-  startEngine(){
-    engineStarted = true;
   }
 
   // === Fuel burn over time step (dt in seconds) ===
@@ -94,7 +78,14 @@ export default class Rocket{
     this.burnFuel(this.time.delta);
     this.physics.update();
     //console.log(state.altitude / 1000)
-    this.position.copy(state.position);
+    //moving the whole world down instead of the rocket up because three.js is trash
+    this.scene.children.forEach((child)=>{
+      if(child !== this.transform && child !== this.experience.camera.instance){
+        child.position.sub(state.position.clone().sub(this.prev))
+        this.prev = state.position.clone();
+      }
+    })
     this.orientation.copy(state.orientation);
+
   }
 }

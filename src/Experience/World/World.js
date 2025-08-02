@@ -19,10 +19,12 @@ export default class World
             // Setup
             this.floor = new Floor()
             rocket = new Rocket({
-                dryMass: 22200 + 410900 - 30000,      // in kg
-                fuelMass: 410900 - 410900 + 30000,    // in kg
-                exhaustVelocity: 2380,                // in m/s
-                massFlowRate: 2055                    // in kg/s
+                dryMass: 22200 ,      // in kg
+                fuelMass: 410900,    // in kg
+                exhaustVelocity: 3660,                // in m/s
+                massFlowRate: 1280,                    // in kg/s
+                fuelExitPressure: 151700,               // in Pa
+                nozzleExitArea: 1.38                  // in m^2
             });
             this.rocket = rocket
             //this.fox = new Fox();

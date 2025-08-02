@@ -20,7 +20,7 @@ export default class Force {
 
 export const forces = {
   thrust: new Force(
-    () => rocket.fuelMass > 0 ? rocket.massFlowRate * rocket.exhaustVelocity : 0,
+    () => rocket.fuelMass > 0 ? rocket.massFlowRate * rocket.exhaustVelocity + (rocket.fuelExitPressure - state.airPressure)*rocket.nozzleExitArea : 0,
     () => up().applyQuaternion(rocket.orientation)
   ),
 
