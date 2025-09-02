@@ -38,7 +38,7 @@ export default class Experience
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
-
+        
         // Resize event
         this.sizes.on('resize', () =>
         {
@@ -50,8 +50,12 @@ export default class Experience
         {
             this.update()
         })
+        this.resources.on('ready', () =>
+        {
+            this.scene.background = this.resources.items.skyboxTexture
+        })
     }
-
+    
     resize()
     {
         this.camera.resize()
@@ -63,6 +67,9 @@ export default class Experience
         this.camera.update()
         this.world.update()
         this.renderer.update()
+        if (this.world.skybox) {
+        this.world.skybox.position.copy(this.camera.instance.position);
+    }
     }
 
     destroy()

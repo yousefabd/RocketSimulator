@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
-
+import { state } from '../Physics/state.js'
 export default class Floor
 {
     constructor()
@@ -13,11 +13,13 @@ export default class Floor
         this.setTextures()
         this.setMaterial()
         this.setMesh()
+        this.setTrees()
     }
 
     setGeometry()
     {
-        this.geometry = new THREE.CircleGeometry(64, 64)
+        const groundSize = 1000; // Really wide floor
+        this.geometry = new THREE.PlaneGeometry(groundSize, groundSize, 1, 1)
     }
 
     setTextures()
@@ -26,12 +28,12 @@ export default class Floor
 
         this.textures.color = this.resources.items.grassColorTexture
         this.textures.color.colorSpace = THREE.SRGBColorSpace
-        this.textures.color.repeat.set(4, 4)
+        this.textures.color.repeat.set(50, 50)
         this.textures.color.wrapS = THREE.RepeatWrapping
         this.textures.color.wrapT = THREE.RepeatWrapping
 
         this.textures.normal = this.resources.items.grassNormalTexture
-        this.textures.normal.repeat.set(4, 4)
+        this.textures.normal.repeat.set(50, 50)
         this.textures.normal.wrapS = THREE.RepeatWrapping
         this.textures.normal.wrapT = THREE.RepeatWrapping
     }
@@ -40,8 +42,14 @@ export default class Floor
     {
         this.material = new THREE.MeshStandardMaterial({
             map: this.textures.color,
-            normalMap: this.textures.normal
+            normalScale: new THREE.Vector2(0.1, 0.1),
+            normalMap: this.textures.normal,
+            roughness: 0.8,
+            metalness: 0,
+            transparent: true, // Add this
+            opacity: 1.0 // Initial opacity
         })
+                
     }
 
     setMesh()
@@ -51,5 +59,37 @@ export default class Floor
         this.mesh.position.y = -5;
         this.mesh.receiveShadow = true
         this.scene.add(this.mesh)
+    }
+    setTrees(){
+    for (let i = 0; i < 30; i++) {
+    const angle = Math.random() * Math.PI * 2
+    const radius = 100 + Math.random() * 150
+
+    const x = Math.cos(angle) * radius
+    const z = Math.sin(angle) * radius
+
+    const tree = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.5, 1, 10, 8),
+        new THREE.MeshStandardMaterial({ color: '#228B22' }) // Green
+    )
+    tree.position.set(x, 0, z)
+    tree.castShadow = true
+    this.scene.add(tree)
+    }
+}
+    update()
+    {
+        if(state.position.y >= 500)
+    {
+        // Calculate fade progress (0 to 1) based on how far above 500 we are
+        // You can adjust the 100 value to control how quickly it fades out
+        const fadeProgress = Math.min(1, (state.position.y - 500) / 100);
+        
+        // Fade out the floor material
+        this.material.opacity = 1 - fadeProgress;
+        
+        // Optional: Also fade out the trees if you want them to disappear too
+        // You would need to store references to the trees for this to work
+    }
     }
 }

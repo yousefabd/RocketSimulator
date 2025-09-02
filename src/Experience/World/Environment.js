@@ -17,12 +17,17 @@ export default class Environment
         }
 
         this.setSunLight()
+        this.setAmbientLight();
         this.setEnvironmentMap()
     }
-
+    setAmbientLight()
+    {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2)
+    this.scene.add(ambientLight)
+    }
     setSunLight()
     {
-        this.sunLight = new THREE.DirectionalLight('#ffffff', 4);
+        this.sunLight = new THREE.DirectionalLight('#ffffff', 1);
         this.sunLight.castShadow = true;
         this.sunLight.position.set(50.5, 100, 50);
         this.scene.add(this.sunLight);
@@ -31,11 +36,11 @@ export default class Environment
         this.sunLight.shadow.mapSize.set(4096, 4096); // sharper shadows
         this.sunLight.shadow.camera.near = 0.5;
         this.sunLight.shadow.camera.far = 300; // increase for taller objects
-        
-        this.sunLight.shadow.camera.left = -100;
-        this.sunLight.shadow.camera.right = 100;
-        this.sunLight.shadow.camera.top = 100;
-        this.sunLight.shadow.camera.bottom = -100;
+        const floorHalfSize = 1000;
+        this.sunLight.shadow.camera.left = -floorHalfSize;
+        this.sunLight.shadow.camera.right = floorHalfSize;
+        this.sunLight.shadow.camera.top = floorHalfSize;
+        this.sunLight.shadow.camera.bottom = -floorHalfSize;
         this.sunLight.shadow.normalBias = 0.05;
         
 
