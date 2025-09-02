@@ -44,17 +44,6 @@ export default [
         type: 'texture',
         path: 'textures/earth/2k_earth_normal_map.jpg'
     },
-    // {
-    //     name: 'rocketModel',
-    //     type: 'objModel',
-    //     path: 'models/Rocket/rocket.obj',
-    //     textures: {
-    //         diffuseMap: 'models/Rocket/textures/10038.jpg',
-    //         normalMap: 'models/Rocket/textures/10038.jpg_normalmap.jpg',
-    //         roughnessMap: 'models/Rocket/textures/3968.png',         // Assumed use
-    //         alternateDiffuse: 'models/Rocket/textures/316.02.20.jpg' // Optional, if needed
-    //     }
-    // },
     {
         name: 'rocketModel2',
         type: 'objModel',
@@ -66,6 +55,11 @@ export default [
             metalnessMap: 'models/Rocket/textures/1001_Metallic.png',
         }
     },
+    // {
+    //     name: 'treeModel',
+    //     type: 'gltfModel',
+    //     path: 'models/Tree/scene.gltf',
+    // }
     
     // {
     //     name: 'foxModel',

@@ -55,6 +55,5 @@ export default class RocketController{
       this.thrustRotationDir.z -= 1;
     }
     this.thrustRotationDir.normalize();
-    console.log(this.thrustRotationDir);
   }
 }

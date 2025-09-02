@@ -41,6 +41,9 @@ export const forces = {
       const g = state.gravityAcceleration;
       return m * g;
     },
-    down
+    () => {
+      // vector pointing toward Earth center
+      return constants.earthCenter.clone().sub(state.position).normalize();
+    }
   )
 };

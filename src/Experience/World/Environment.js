@@ -22,7 +22,7 @@ export default class Environment
     }
     setAmbientLight()
     {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2)
     this.scene.add(ambientLight)
     }
     setSunLight()

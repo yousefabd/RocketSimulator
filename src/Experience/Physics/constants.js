@@ -1,3 +1,5 @@
+import * as THREE from 'three'
+
 export const constants = {
   //rocket constants
   dragCoefficient: 0.5,
@@ -17,7 +19,7 @@ export const constants = {
   seaLevelDensity: 1.225,              //kg/m^3
   scaleHeight: 8500,                   //m
 
-  GravitationalContant: 6.67430e-11, 
+  GravitationalConstant: 6.67430e-11, 
   earthMass: 5.972e24,                  // kg
   earthRadius: 6.371e6,                 // m
   molarAirMass: 0.0289644,              //kg/mol
@@ -26,3 +28,4 @@ export const constants = {
   groundAirPressure: 101325,            //Pa
 
 }
+constants.earthCenter = new THREE.Vector3(0, -constants.earthRadius, 0);

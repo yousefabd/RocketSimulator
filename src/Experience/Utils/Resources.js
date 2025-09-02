@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import EventEmitter from './EventEmitter.js';
 
 export default class Resources extends EventEmitter {
@@ -25,6 +26,7 @@ export default class Resources extends EventEmitter {
         };
         this.loaders.gltfLoader = new GLTFLoader(this.manager);
         this.loaders.objLoader = new OBJLoader(this.manager);
+        this.loaders.mtlLoader = new MTLLoader(this.manager);
         this.loaders.textureLoader = new THREE.TextureLoader(this.manager);
         this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader(this.manager);
     }
@@ -32,7 +34,7 @@ export default class Resources extends EventEmitter {
     startLoading() {
         for (const source of this.sources) {
             // GLTF
-            if (source.type === 'gltfModel') {
+            if (source.type === 'gltffModel') {
                 this.loaders.gltfLoader.load(
                     source.path,
                     (file) => this.sourceLoaded(source, file),
@@ -43,6 +45,7 @@ export default class Resources extends EventEmitter {
 
             // OBJ
             else if (source.type === 'objModel') {
+
                 this.loaders.objLoader.load(
                     source.path,
                     (model) => {
@@ -79,6 +82,7 @@ export default class Resources extends EventEmitter {
                     (error) => console.error('OBJ Load Error:', source.path, error)
                 );
             }
+            
 
             // Single texture
             else if (source.type === 'texture') {

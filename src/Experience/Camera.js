@@ -40,7 +40,7 @@ export default class Camera {
         const targetWorldPos = new THREE.Vector3();
         this.target.transform.getWorldPosition(targetWorldPos);
 
-        const offset = new THREE.Vector3(0, 2, 25); // relative offset
+        const offset = new THREE.Vector3(0, 20, 25); // relative offset
         this.instance.position.copy(targetWorldPos).add(offset);
 
         // Set controls target to the rocket

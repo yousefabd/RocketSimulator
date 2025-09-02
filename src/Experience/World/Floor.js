@@ -13,7 +13,7 @@ export default class Floor
         this.setTextures()
         this.setMaterial()
         this.setMesh()
-        this.setTrees()
+        //this.setTrees()
     }
 
     setGeometry()
@@ -61,22 +61,21 @@ export default class Floor
         this.scene.add(this.mesh)
     }
     setTrees(){
-    for (let i = 0; i < 30; i++) {
-    const angle = Math.random() * Math.PI * 2
-    const radius = 100 + Math.random() * 150
+        const treeModel = this.resources.items.treeModel;
+        treeModel.scale.set(5,5,5);
+        for (let i = 0; i < 30; i++) {
+            const angle = Math.random() * Math.PI * 2
+            const radius = 100 + Math.random() * 150
 
-    const x = Math.cos(angle) * radius
-    const z = Math.sin(angle) * radius
+            const x = Math.cos(angle) * radius
+            const z = Math.sin(angle) * radius
 
-    const tree = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.5, 1, 10, 8),
-        new THREE.MeshStandardMaterial({ color: '#228B22' }) // Green
-    )
-    tree.position.set(x, 0, z)
-    tree.castShadow = true
-    this.scene.add(tree)
+            const tree = treeModel.clone(true);
+            tree.position.set(x, 0, z)
+            tree.castShadow = true
+            this.scene.add(tree)
+        }
     }
-}
     update()
     {
         if(state.position.y >= 500)

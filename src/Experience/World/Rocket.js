@@ -3,6 +3,7 @@ import Experience from '../Experience.js'
 import Physics from '../Physics/Physics.js';
 import {state} from '../Physics/state.js';
 import RocketController from './RocketController.js';
+import { constants } from '../Physics/constants.js';
 
 export default class Rocket{
   
@@ -77,13 +78,12 @@ export default class Rocket{
     this.burnFuel(this.time.delta);
     this.physics.update();
     //console.log(state.altitude / 1000)
-    //moving the whole world down instead of the rocket up because three.js is trash
     this.scene.children.forEach((child)=>{
       if(child !== this.transform && child !== this.experience.camera.instance){
         child.position.sub(state.position.clone().sub(this.prev))
-        this.prev = state.position.clone();
       }
     })
+    this.prev = state.position.clone();
     this.orientation.copy(state.orientation);
 
   }
