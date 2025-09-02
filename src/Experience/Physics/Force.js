@@ -34,7 +34,7 @@ export const forces = {
     },
     () => state.velocity.clone().negate().normalize() // drag opposes motion
   ),
-
+  
   weight: new Force(
     () => {
       const m = rocket.getTotalMass();

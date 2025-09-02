@@ -47,14 +47,13 @@ export default class Rocket{
     this.controller = new RocketController(this);
 
     // Resource
-    //this.transform = this.resources.items.rocketModel
-    this.transform = new THREE.Mesh(
-      new THREE.BoxGeometry(1,9.5,1),
-      new THREE.MeshStandardMaterial({color:0x00a00f})
-    );
-    //offset rotation to make the model vertical until I find an actual vertical model;
-    this.offsetQuaternion = new THREE.Quaternion(-0.03742589084626636,0.014087212039777891,0.35199245146238406,0.9351482060426629);
-    this.transform.quaternion.copy(this.offsetQuaternion);
+    this.transform = this.resources.items.rocketModel2
+    this.transform.scale.set(0.03,0.03,0.03);
+    this.transform.position.y = -5;
+    // this.transform = new THREE.Mesh(
+    //   new THREE.BoxGeometry(1,9.5,1),
+    //   new THREE.MeshStandardMaterial({color:0x00a00f})
+    // );
     this.scene.add(this.transform)
 
     //rocket state

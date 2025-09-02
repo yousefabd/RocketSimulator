@@ -22,17 +22,28 @@ export default [
         type: 'texture',
         path: 'textures/dirt/normal.jpg'
     },
+    // {
+    //     name: 'rocketModel',
+    //     type: 'objModel',
+    //     path: 'models/Rocket/rocket.obj',
+    //     textures: {
+    //         diffuseMap: 'models/Rocket/textures/10038.jpg',
+    //         normalMap: 'models/Rocket/textures/10038.jpg_normalmap.jpg',
+    //         roughnessMap: 'models/Rocket/textures/3968.png',         // Assumed use
+    //         alternateDiffuse: 'models/Rocket/textures/316.02.20.jpg' // Optional, if needed
+    //     }
+    // },
     {
-        name: 'rocketModel',
+        name: 'rocketModel2',
         type: 'objModel',
-        path: 'models/Rocket/rocket.obj',
+        path: 'models/Rocket/rocket2.obj',
         textures: {
-            diffuseMap: 'models/Rocket/textures/10038.jpg',
-            normalMap: 'models/Rocket/textures/10038.jpg_normalmap.jpg',
-            roughnessMap: 'models/Rocket/textures/3968.png',         // Assumed use
-            alternateDiffuse: 'models/Rocket/textures/316.02.20.jpg' // Optional, if needed
+            diffuseMap: 'models/Rocket/textures/1001_Base_Color.png',
+            normalMap: 'models/Rocket/textures/1001_Normal_OpenGL.png',
+            roughnessMap: 'models/Rocket/textures/1001_Roughness.png',
+            metalnessMap: 'models/Rocket/textures/1001_Metallic.png',
         }
-    }
+    },
     
     // {
     //     name: 'foxModel',

@@ -145,7 +145,6 @@ export default class Physics {
     this.testArrowHelpers.push(thrustArrow);
   }
   update() {
-    console.log(new THREE.Vector2(state.position.y,state.airPressure));
     this.handleTranslationalMotion();
     this.handleRotationalMotion();
     this.debugVisualize();
