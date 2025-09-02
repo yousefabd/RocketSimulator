@@ -12,15 +12,37 @@ export default [
             'textures/environmentMap/nz.jpg'
         ]
     },
+     {
+        name: 'skyboxTexture',
+        type: 'cubeTexture',
+        path: [
+            'textures/skybox/clouds1_east.bmp',
+            'textures/skybox/clouds1_west.bmp',
+            'textures/skybox/clouds1_up.bmp',
+            'textures/skybox/clouds1_down.bmp',
+            'textures/skybox/clouds1_north.bmp',
+            'textures/skybox/clouds1_south.bmp'
+        ]
+    },
     {
         name: 'grassColorTexture',
         type: 'texture',
-        path: 'textures/dirt/color.jpg'
+        path: 'textures/dirt/Lawn_Grass_tkynejer_1K_BaseColor.jpg'
     },
     {
         name: 'grassNormalTexture',
         type: 'texture',
-        path: 'textures/dirt/normal.jpg'
+        path: 'textures/dirt/Lawn_Grass_tkynejer_1K_Normal.jpg'
+    },
+    {
+        name: 'earthTexture',
+        type: 'texture',
+        path: 'textures/earth/2k_earth_daymap.jpg'
+    },
+    {
+        name: 'earthColorTexture',
+        type: 'texture',
+        path: 'textures/earth/2k_earth_normal_map.jpg'
     },
     // {
     //     name: 'rocketModel',

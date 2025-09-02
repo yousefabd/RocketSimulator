@@ -1,6 +1,7 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Floor from './Floor.js'
+import Earth from './Earth.js'
 import Rocket from './Rocket.js'
 //import Fox from './Fox.js';
 
@@ -18,6 +19,11 @@ export default class World
         {
             // Setup
             this.floor = new Floor()
+            this.earth= new Earth()
+            this.floor.material.transparent = true;
+            this.floor.material.opacity = 1;
+            this.earth.material.transparent = true;
+            this.earth.material.opacity = 1;
             rocket = new Rocket({
                 dryMass: 22200 ,      // in kg
                 fuelMass: 410900,    // in kg
@@ -37,6 +43,7 @@ export default class World
     {
         if(this.rocket){
             this.rocket.update();
+            this.floor.update();
         }
     }
 }
