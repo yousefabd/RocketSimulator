@@ -3,6 +3,7 @@ import Environment from './Environment.js'
 import Floor from './Floor.js'
 import Earth from './Earth.js'
 import Rocket from './Rocket.js'
+import ExperimentSetupUI from '../ExperimentSetupUI.js'
 //import Fox from './Fox.js';
 
 export let rocket = null;
@@ -13,6 +14,7 @@ export default class World
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
+        this.experimentUI = new ExperimentSetupUI()
 
         // Wait for resources
         this.resources.on('ready', () =>
@@ -24,17 +26,23 @@ export default class World
             this.floor.material.opacity = 1;
             this.earth.material.transparent = true;
             this.earth.material.opacity = 1;
-            rocket = new Rocket({
-                dryMass: 22200 ,      // in kg
-                fuelMass: 410900,    // in kg
-                exhaustVelocity: 3660,                // in m/s
-                massFlowRate: 1280,                    // in kg/s
-                fuelExitPressure: 151700,               // in Pa
-                nozzleExitArea: 1.38                  // in m^2
-            });
-            this.rocket = rocket
-            //this.fox = new Fox();
             this.environment = new Environment()
+
+            // rocket = new Rocket({
+            //     dryMass: 22200 ,      // in kg
+            //     fuelMass: 410900,    // in kg
+            //     exhaustVelocity: 3660,                // in m/s
+            //     massFlowRate: 1280,                    // in kg/s
+            //     fuelExitPressure: 151700,               // in Pa
+            //     nozzleExitArea: 1.38                  // in m^2
+            // });
+            // this.rocket = rocket
+            // //this.fox = new Fox();
+            // this.experience.camera.setTarget(this.rocket)
+        })
+        this.experimentUI.on('experimentStart', (values) => {
+            rocket = new Rocket(values)
+            this.rocket = rocket
             this.experience.camera.setTarget(this.rocket)
         })
     }

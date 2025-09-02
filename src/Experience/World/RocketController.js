@@ -24,14 +24,7 @@ export default class RocketController{
         this.debugFolder = this.debug.ui.addFolder('rocket')
     }
     if(this.debug.active){
-      this.debugFolder.add(this,'engineStarted').name("start engine").onChange((start)=>{
-        if(start){
-          this.rocket.fuelMass = this.rocket.maxFuelMass;
-        }
-        else{
-          this.rocket.fuelMass = 0;
-        }
-      });
+      this.debugFolder.add(rocket,'engineStarted').name("start engine");
       this.debugFolder.add(this.finDeflection, 'yaw').min(-30).max(30).step(0.1).name('Yaw Deflection');
       this.debugFolder.add(this.finDeflection, 'pitch').min(-30).max(30).step(0.1).name('Pitch Deflection');
       this.debugFolder.add(this,'thrustForward').onChange(()=>{this.calculateThrustRotation()});

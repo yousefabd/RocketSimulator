@@ -31,7 +31,7 @@ export default class Rocket{
     // === Rocket Parameters ===
     this.dryMass = dryMass                        // kg
     this.maxFuelMass = fuelMass                   // kg
-    this.fuelMass = 0
+    this.fuelMass = fuelMass      
     this.exhaustVelocity = exhaustVelocity        // m/s
     this.massFlowRate = massFlowRate              // kg/s
     this.finArea = finArea                        // m^2
@@ -41,6 +41,7 @@ export default class Rocket{
     this.finExhaustVelocity = finExhaustVelocity; // m/s
     this.finMassFlowRate = finMassFlowRate;       // kg/s
     this.finNozzleExitArea = finNozzleExitArea    // m^2
+    this.engineStarted = false;
 
 
     this.physics = new Physics(this);
@@ -70,6 +71,8 @@ export default class Rocket{
 
   // === Fuel burn over time step (dt in seconds) ===
   burnFuel(deltaTime) {
+    if(!this.engineStarted)
+      return;
     const burned = this.massFlowRate * deltaTime
     this.fuelMass = Math.max(this.fuelMass - burned, 0)
   }

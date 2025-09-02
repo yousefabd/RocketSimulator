@@ -17,6 +17,94 @@ body
     left: 0;
     outline: none;
 }
+
+.experiment-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.experiment-box {
+    background: rgba(20, 25, 23, 0.9);
+    border-radius: 16px;
+    padding: 28px 32px;
+    width: 400px;
+    color: #e9f5ec;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.08);
+    text-align: center;
+}
+
+.experiment-box .title {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #ccf7d8;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.field label {
+    flex: 1;
+    text-align: left;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.field input {
+    width: 120px;
+    background: rgba(0,0,0,0.4);
+    border: none;
+    border-radius: 6px;
+    color: #e9f5ec;
+    padding: 6px 8px;
+    font-size: 14px;
+    text-align: right;
+}
+
+.field input:focus {
+    outline: 1px solid #37e877;
+    box-shadow: 0 0 8px #37e87755;
+}
+
+.field .unit {
+    margin-left: 8px;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+#startExperiment {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(90deg,#12d64f,#28e76c 40%,#35f07a);
+    color: #0b1a10;
+    box-shadow: 0 4px 16px #28e76c55;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#startExperiment:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px #28e76c66;
+}
+
 .hud-box{
     position: fixed;
     width: 260px;
@@ -158,11 +246,11 @@ body
 .fuel-meta .value{ font-variant-numeric: tabular-nums; }
 
 .fuel-widget.low .fuel-fill{
-    background: linear-gradient(90deg,#1fb34f,#31ce69 50%,#42e27c);
+    background: linear-gradient(90deg,#eba309,#eba309 50%,#eba309);
     box-shadow: inset 0 0 10px rgba(255,255,255,0.25), 0 0 14px #42e27c55;
 }
 .fuel-widget.critical .fuel-fill{
-    background: linear-gradient(90deg,#34a853,#41c56c);
+    background: linear-gradient(90deg,#fc0b0b,#fc0b0b);
     box-shadow: inset 0 0 10px rgba(255,255,255,0.25), 0 0 26px #41c56c66;
     animation: pulse 1.2s ease-in-out infinite alternate;
 }
