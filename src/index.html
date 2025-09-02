@@ -8,6 +8,58 @@
 </head>
 <body>
     <canvas class="webgl"></canvas>
+    <div class="hud-box" id="environmentWidget" style="top: 24px; left: 24px;">
+        <div class="hud-header">
+            <span class="dot"></span>
+            <span>Environment</span>
+        </div>
+        <div class="hud-metric">
+            <span class="label">h </span>
+            <span class="value" id="altitude">0.00</span>
+            <span class="unit" id="altitudeUnit">m</span>
+        </div>
+        <div class="hud-metric">
+            <span class="label">&#961;</span>
+            <span class="value" id="airDensity">0.00</span>
+            <span class="unit">kg/m<span style="position: absolute; top: px; font-size: 6px;">3</span></span>
+        </div>
+        <div class="hud-metric">
+            <span class="label">P</span>
+            <span class="value" id="airPressure">0.00</span>
+            <span class="unit">Pa</span>
+        </div>
+    </div>  
+    <div class="hud-box" id="speedWidget" style="bottom: 24px; left: 24px;">
+        <div class="hud-header">
+            <span class="dot"></span>
+            <span>Speed</span>
+        </div>
+        <div class="hud-metric">
+            <span class="label">v</span>
+            <span class="value" id="velocity">0.00</span>
+            <span class="unit">m/s</span>
+        </div>
+        <div class="hud-metric">
+            <span class="label">ω</span>
+            <span class="value" id="angularVelocity">0.00</span>
+            <span class="unit">rad/s</span>
+        </div>
+    </div>  
+
+    <div class="fuel-widget" id="fuelWidget">
+        <div class="fuel-header">
+            <span class="dot"></span>
+            <span>Fuel</span>
+            <span id="fuelPercent">65%</span>
+        </div>
+        <div class="fuel-bar">
+            <div class="fuel-fill"></div>
+        </div>
+        <div class="fuel-meta">
+            <span class="label">Tank</span>
+            <span class="value" id="fuelMass">— kg</span>
+        </div>
+    </div>
     <script type="module" src="./script.js"></script>
 </body>
 </html>

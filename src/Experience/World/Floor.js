@@ -13,7 +13,6 @@ export default class Floor
         this.setTextures()
         this.setMaterial()
         this.setMesh()
-        //this.setTrees()
     }
 
     setGeometry()
