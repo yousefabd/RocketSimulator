@@ -9,6 +9,7 @@ import World from './World/World.js'
 import Resources from './Utils/Resources.js'
 
 import sources from './sources.js'
+import ValuesUI from './ValuesUI.js'
 
 let instance = null
 
@@ -38,6 +39,7 @@ export default class Experience
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
+        this.valuesUI = new ValuesUI()
         
         // Resize event
         this.sizes.on('resize', () =>
@@ -68,9 +70,9 @@ export default class Experience
         this.world.update()
         this.renderer.update()
         if (this.world.skybox) {
-        this.world.skybox.position.copy(this.camera.instance.position);
-        
-    }
+            this.world.skybox.position.copy(this.camera.instance.position);
+        }
+        this.valuesUI.update();
     }
 
     destroy()

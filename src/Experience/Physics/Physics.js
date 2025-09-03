@@ -100,9 +100,17 @@ export default class Physics {
 
     // h = h + v * dt
     state.position.add(state.velocity.clone().multiplyScalar(this.time.delta));
-    if(state.position.y<0){
-      state.position.y = 0;
-      state.velocity.set(0,0,0);
+    
+    const r = state.position.distanceTo(constants.earthCenter);
+    
+    // If rocket is below Earth's surface
+    if (r < constants.earthRadius) {
+      // Put rocket back on the surface
+      const direction = state.position.clone().sub(constants.earthCenter).normalize();
+      state.position.copy(direction.multiplyScalar(constants.earthRadius).add(constants.earthCenter));
+    
+      // Stop velocity
+      state.velocity.set(0, 0, 0);
     }
   }
   handleRotationalMotion() {

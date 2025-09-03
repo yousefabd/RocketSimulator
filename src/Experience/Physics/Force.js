@@ -20,7 +20,7 @@ export default class Force {
 
 export const forces = {
   thrust: new Force(
-    () => rocket.fuelMass > 0 ? rocket.massFlowRate * rocket.exhaustVelocity + (rocket.fuelExitPressure - state.airPressure)*rocket.nozzleExitArea : 0,
+    () => rocket.fuelMass > 0 && rocket.engineStarted ? rocket.massFlowRate * rocket.exhaustVelocity + (rocket.fuelExitPressure - state.airPressure)*rocket.nozzleExitArea : 0,
     () => up().applyQuaternion(rocket.orientation)
   ),
 
@@ -34,13 +34,16 @@ export const forces = {
     },
     () => state.velocity.clone().negate().normalize() // drag opposes motion
   ),
-
+  
   weight: new Force(
     () => {
       const m = rocket.getTotalMass();
       const g = state.gravityAcceleration;
       return m * g;
     },
-    down
+    () => {
+      // vector pointing toward Earth center
+      return constants.earthCenter.clone().sub(state.position).normalize();
+    }
   )
 };

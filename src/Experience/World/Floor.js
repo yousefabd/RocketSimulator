@@ -13,12 +13,11 @@ export default class Floor
         this.setTextures()
         this.setMaterial()
         this.setMesh()
-        this.setTrees()
     }
 
     setGeometry()
     {
-        const groundSize = 1000; // Really wide floor
+        const groundSize = 10000; // Really wide floor
         this.geometry = new THREE.PlaneGeometry(groundSize, groundSize, 1, 1)
     }
 
@@ -28,12 +27,12 @@ export default class Floor
 
         this.textures.color = this.resources.items.grassColorTexture
         this.textures.color.colorSpace = THREE.SRGBColorSpace
-        this.textures.color.repeat.set(50, 50)
+        this.textures.color.repeat.set(500, 500)
         this.textures.color.wrapS = THREE.RepeatWrapping
         this.textures.color.wrapT = THREE.RepeatWrapping
 
         this.textures.normal = this.resources.items.grassNormalTexture
-        this.textures.normal.repeat.set(50, 50)
+        this.textures.normal.repeat.set(500, 500)
         this.textures.normal.wrapS = THREE.RepeatWrapping
         this.textures.normal.wrapT = THREE.RepeatWrapping
     }
@@ -91,11 +90,12 @@ export default class Floor
         
         // Fade out the floor material
         this.material.opacity = 1 - fadeProgress;
-         this.trees.forEach(tree => {
-            tree.material.opacity = 1 - fadeProgress;
-        });
+        //  this.trees.forEach(tree => {
+        //     tree.material.opacity = 1 - fadeProgress;
+        // });
         // Optional: Also fade out the trees if you want them to disappear too
         // You would need to store references to the trees for this to work
     }
     }
+
 }

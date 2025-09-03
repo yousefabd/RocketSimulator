@@ -17,7 +17,7 @@ export default class Camera {
     }
 
     setInstance() {
-        this.instance = new THREE.PerspectiveCamera(35, this.sizes.width / this.sizes.height, 0.1, 3000);
+        this.instance = new THREE.PerspectiveCamera(35, this.sizes.width / this.sizes.height, 0.1, 9000);
         this.instance.position.set(6, 4, 8); // Initial position
         this.scene.add(this.instance);
     }
@@ -40,7 +40,7 @@ export default class Camera {
         const targetWorldPos = new THREE.Vector3();
         this.target.transform.getWorldPosition(targetWorldPos);
 
-        const offset = new THREE.Vector3(0, 2, 25); // relative offset
+        const offset = new THREE.Vector3(0, 20, 25); // relative offset
         this.instance.position.copy(targetWorldPos).add(offset);
 
         // Set controls target to the rocket

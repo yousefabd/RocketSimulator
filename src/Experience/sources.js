@@ -52,27 +52,34 @@ export default [
     },
     {
         name: 'rocketModel',
+        name: 'rocketModel2',
         type: 'objModel',
-        path: 'models/Rocket/rocket.obj',
+        path: 'models/Rocket/rocket2.obj',
         textures: {
-            diffuseMap: 'models/Rocket/textures/10038.jpg',
-            normalMap: 'models/Rocket/textures/10038.jpg_normalmap.jpg',
-            roughnessMap: 'models/Rocket/textures/3968.png',         // Assumed use
-            alternateDiffuse: 'models/Rocket/textures/316.02.20.jpg' // Optional, if needed
+            diffuseMap: 'models/Rocket/textures/1001_Base_Color.png',
+            normalMap: 'models/Rocket/textures/1001_Normal_OpenGL.png',
+            roughnessMap: 'models/Rocket/textures/1001_Roughness.png',
+            metalnessMap: 'models/Rocket/textures/1001_Metallic.png',
         }
     },
     {
         name: 'spaceboxTexture',
         type: 'cubeTexture',
         path: [
-            'textures/skybox/galaxy+X.jpg',
-            'textures/skybox/galaxy-X.jpg',
-            'textures/skybox/galaxy+Y.jpg',
-            'textures/skybox/galaxy-Y.jpg',
-            'textures/skybox/galaxy+Z.jpg',
-            'textures/skybox/galaxy-Z.jpg'
+            'textures/skybox/25-09-03-08-27-46_Right.png',
+            'textures/skybox/25-09-03-08-27-46_Left.png',
+            'textures/skybox/25-09-03-08-27-46_Top.png',
+            'textures/skybox/25-09-03-08-27-46_Back.png',
+            'textures/skybox/25-09-03-08-27-46_Front.png',
+            'textures/skybox/25-09-03-08-27-46_Bottom.png'
         ]
     },
+    // {
+    //     name: 'treeModel',
+    //     type: 'gltfModel',
+    //     path: 'models/Tree/scene.gltf',
+    // }
+    
     // {
     //     name: 'foxModel',
     //     type: 'gltfModel',
