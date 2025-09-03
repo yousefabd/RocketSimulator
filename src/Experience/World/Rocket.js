@@ -5,6 +5,7 @@ import {state} from '../Physics/state.js';
 import RocketController from './RocketController.js';
 import { constants } from '../Physics/constants.js';
 
+
 export default class Rocket{
   
   constructor({
@@ -47,6 +48,7 @@ export default class Rocket{
     this.physics = new Physics(this);
 
     this.controller = new RocketController(this);
+    //this.fire = new Fire(this);
 
     // Resource
     this.transform = this.resources.items.rocketModel2
@@ -79,6 +81,7 @@ export default class Rocket{
 
   update(){
     this.burnFuel(this.time.delta);
+    //this.fire.update();
     this.physics.update();
     //console.log(state.altitude / 1000)
     this.scene.children.forEach((child)=>{
