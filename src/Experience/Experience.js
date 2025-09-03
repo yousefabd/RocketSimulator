@@ -52,7 +52,7 @@ export default class Experience
         })
         this.resources.on('ready', () =>
         {
-            this.scene.background = this.resources.items.skyboxTexture
+            this.scene.background = this.resources.items.skyboxCross;
         })
     }
     
@@ -69,6 +69,7 @@ export default class Experience
         this.renderer.update()
         if (this.world.skybox) {
         this.world.skybox.position.copy(this.camera.instance.position);
+        
     }
     }
 

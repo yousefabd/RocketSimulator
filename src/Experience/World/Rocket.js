@@ -82,9 +82,10 @@ export default class Rocket{
     this.scene.children.forEach((child)=>{
       if(child !== this.transform && child !== this.experience.camera.instance){
         child.position.sub(state.position.clone().sub(this.prev))
-        this.prev = state.position.clone();
+
       }
     })
+    this.prev = state.position.clone();
     this.orientation.copy(state.orientation);
 
   }

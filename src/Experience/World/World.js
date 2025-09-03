@@ -23,7 +23,7 @@ export default class World
             this.floor.material.transparent = true;
             this.floor.material.opacity = 1;
             this.earth.material.transparent = true;
-            this.earth.material.opacity = 1;
+            this.earth.material.opacity = 0;
             rocket = new Rocket({
                 dryMass: 22200 ,      // in kg
                 fuelMass: 410900,    // in kg
@@ -44,6 +44,7 @@ export default class World
         if(this.rocket){
             this.rocket.update();
             this.floor.update();
+            this.earth.update();
         }
     }
 }
