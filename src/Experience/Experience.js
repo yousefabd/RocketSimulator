@@ -54,7 +54,7 @@ export default class Experience
         })
         this.resources.on('ready', () =>
         {
-            this.scene.background = this.resources.items.skyboxTexture
+            this.scene.background = this.resources.items.skyboxCross;
         })
     }
     

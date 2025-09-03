@@ -24,6 +24,7 @@ export default [
             'textures/skybox/clouds1_south.bmp'
         ]
     },
+   
     {
         name: 'grassColorTexture',
         type: 'texture',
@@ -45,6 +46,12 @@ export default [
         path: 'textures/earth/2k_earth_normal_map.jpg'
     },
     {
+        name: 'skyboxCross',
+        type: 'crossCubeTexture',
+        path: 'textures/skybox/Cubemap_Sky_04-512x512.png'
+    },
+    {
+        name: 'rocketModel',
         name: 'rocketModel2',
         type: 'objModel',
         path: 'models/Rocket/rocket2.obj',
@@ -54,6 +61,18 @@ export default [
             roughnessMap: 'models/Rocket/textures/1001_Roughness.png',
             metalnessMap: 'models/Rocket/textures/1001_Metallic.png',
         }
+    },
+    {
+        name: 'spaceboxTexture',
+        type: 'cubeTexture',
+        path: [
+            'textures/skybox/25-09-03-08-27-46_Right.png',
+            'textures/skybox/25-09-03-08-27-46_Left.png',
+            'textures/skybox/25-09-03-08-27-46_Top.png',
+            'textures/skybox/25-09-03-08-27-46_Back.png',
+            'textures/skybox/25-09-03-08-27-46_Front.png',
+            'textures/skybox/25-09-03-08-27-46_Bottom.png'
+        ]
     },
     // {
     //     name: 'treeModel',

@@ -103,6 +103,49 @@ export default class Resources extends EventEmitter {
                     (error) => console.error('CubeTexture Load Error:', source.path, error)
                 );
             }
+            else if (source.type === 'crossCubeTexture') {
+            const img = new Image();
+            img.onload = () => {
+                const size = img.height / 3; // each cube face size
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const faces = [];
+                const mappings = [
+                    [2, 1], // px (right)
+                    [0, 1], // nx (left)
+                    [1, 0], // py (top)
+                    [1, 2], // ny (bottom)
+                    [1, 1], // pz (front)
+                    [3, 1], // nz (back)
+                ];
+
+                for (let i = 0; i < 6; i++) {
+                    canvas.width = size;
+                    canvas.height = size;
+                    const [cx, cy] = mappings[i];
+                    ctx.clearRect(0, 0, size, size);
+                    ctx.drawImage(img, cx * size, cy * size, size, size, 0, 0, size, size);
+
+                    const faceCanvas = document.createElement('canvas');
+                    faceCanvas.width = size;
+                    faceCanvas.height = size;
+                    faceCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+                    // push raw canvas
+                    faces.push(faceCanvas);
+                }
+
+                // now pass canvases directly
+                const cubeTex = new THREE.CubeTexture(faces);
+                cubeTex.needsUpdate = true;
+                cubeTex.encoding = THREE.sRGBEncoding;
+                this.sourceLoaded(source, cubeTex);
+            };
+
+            img.src = source.path;
+        }
+
         }
     }
 

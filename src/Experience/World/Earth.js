@@ -17,7 +17,7 @@ export default class Earth
 
     setGeometry()
     {
-        const radius = 600; // Earth's radius in kilometers (or scale down for your scene)
+        const radius = 4371; // Earth's radius in kilometers (or scale down for your scene)
         const widthSegments = 64;
         const heightSegments = 64;
 
@@ -56,22 +56,23 @@ export default class Earth
     setMesh()
     {
         this.mesh = new THREE.Mesh(this.geometry, this.material)
-        this.mesh.rotation.x = - Math.PI * 0.5
-        this.mesh.position.y = -5;
+        this.mesh.rotation.x = - Math.PI * 0.33
+        this.mesh.rotation.y = - Math.PI * 0.71
+        this.mesh.position.y = -4396;
         this.mesh.receiveShadow = true
         this.scene.add(this.mesh)
     }
 
     update()
     {
-        // Check if the rocket has reached the threshold height
-    // if(state.position.y >= 500)
-    // {
-    //     // Calculate fade progress (0 to 1) based on how far above 500 we are
-    //     const fadeProgress = Math.min(1, (state.position.y - 500) / 100);
-        
-    //     // Fade IN the Earth material (opposite of floor fade)
-    //     this.material.opacity = fadeProgress;
-    // }
+        //Check if the rocket has reached the threshold height
+        if(state.position.y >= 1000)
+        {
+            // Calculate fade progress (0 to 1) based on how far above 500 we are
+            const fadeProgress = Math.min(1, (state.position.y - 1000) / 100);
+            
+            // Fade IN the Earth material (opposite of floor fade)
+            this.material.opacity = fadeProgress;
+        }
     }
 }

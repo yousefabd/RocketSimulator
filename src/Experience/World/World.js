@@ -3,6 +3,7 @@ import Environment from './Environment.js'
 import Floor from './Floor.js'
 import Earth from './Earth.js'
 import Rocket from './Rocket.js'
+// import Space from './Spacebox.js'
 import ExperimentSetupUI from '../ExperimentSetupUI.js'
 //import Fox from './Fox.js';
 
@@ -22,10 +23,13 @@ export default class World
             // Setup
             this.floor = new Floor()
             this.earth= new Earth()
+            // this.space = new Space()
             this.floor.material.transparent = true;
             this.floor.material.opacity = 1;
             this.earth.material.transparent = true;
-            this.earth.material.opacity = 1;
+            this.earth.material.opacity = 0;
+            // this.space.material.transparent = true;
+            // this.space.material.opacity = 1;
             this.environment = new Environment()
 
             // rocket = new Rocket({
@@ -52,6 +56,7 @@ export default class World
         if(this.rocket){
             this.rocket.update();
             this.floor.update();
+            this.earth.update();
         }
     }
 }

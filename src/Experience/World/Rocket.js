@@ -28,7 +28,7 @@ export default class Rocket{
     this.resources = this.experience.resources
     this.time = this.experience.time
     this.debug = this.experience.debug
-
+    
     // === Rocket Parameters ===
     this.dryMass = dryMass                        // kg
     this.maxFuelMass = fuelMass                   // kg
@@ -80,6 +80,8 @@ export default class Rocket{
   }
 
   update(){
+    this.controller.calculateThrustRotation();
+    this.engineStarted = this.controller.engineStarted;
     this.burnFuel(this.time.delta);
     //this.fire.update();
     this.physics.update();
